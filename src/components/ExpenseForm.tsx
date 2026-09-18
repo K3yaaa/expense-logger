@@ -3,15 +3,39 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { CATEGORIES, Category } from '@/types'
-import { formatRupiahInput, parseRupiahInput } from '@/lib/utils'
-import { Upload, Loader2, X, ImageIcon } from 'lucide-react'
+import { Category } from '@/types'
+import { formatRupiahInput } from '@/lib/utils'
+import { Upload, Loader2, X, UtensilsCrossed, Bus, ShoppingBag, Film, MoreHorizontal } from 'lucide-react'
 
 interface ExpenseFormProps {
   userId: string
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
+
+const CATEGORY_ICONS: Record<Category, React.ReactNode> = {
+  makanan: <UtensilsCrossed size={16} />,
+  transport: <Bus size={16} />,
+  belanja: <ShoppingBag size={16} />,
+  hiburan: <Film size={16} />,
+  lain: <MoreHorizontal size={16} />,
+}
+
+const CATEGORY_LABELS: Record<Category, string> = {
+  makanan: 'Makanan',
+  transport: 'Transport',
+  belanja: 'Belanja',
+  hiburan: 'Hiburan',
+  lain: 'Lainnya',
+}
+
+const CATEGORY_COLORS: Record<Category, string> = {
+  makanan: '#f59e0b',
+  transport: '#3b82f6',
+  belanja: '#8b5cf6',
+  hiburan: '#ec4899',
+  lain: '#6b7280',
+}
 
 export default function ExpenseForm({ userId }: ExpenseFormProps) {
   const [amount, setAmount] = useState('')
@@ -82,7 +106,6 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
     try {
       let receiptUrl: string | null = null
 
-      // Upload receipt if exists
       if (receiptFile) {
         const fileExt = receiptFile.name.split('.').pop()
         const fileName = `${userId}/${Date.now()}.${fileExt}`
@@ -95,7 +118,7 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
           })
 
         if (uploadError) {
-          setError(`Gagal mengunggah struk: ${uploadError.message}`)
+          setError(`Gagal mengunggah resi: ${uploadError.message}`)
           setLoading(false)
           return
         }
@@ -107,7 +130,6 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
         receiptUrl = urlData.publicUrl
       }
 
-      // Insert expense record
       const { error: insertError } = await supabase.from('expenses').insert({
         user_id: userId,
         amount: amountValue,
@@ -125,14 +147,12 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
       setSuccess('Pengeluaran berhasil dicatat!')
       setLoading(false)
 
-      // Reset form
       setAmount('')
       setAmountValue(0)
       setCategory('makanan')
       setDescription('')
       removeReceipt()
 
-      // Redirect after short delay
       setTimeout(() => {
         router.push('/dashboard')
         router.refresh()
@@ -143,57 +163,69 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
     }
   }
 
+  const categories = Object.keys(CATEGORY_LABELS) as Category[]
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {/* Error */}
       {error && (
-        <div className="bg-red-900/30 border border-red-700 text-red-300 rounded-lg px-4 py-3 text-sm">
+        <div className="bg-red-950/40 border border-red-800/50 text-red-300 rounded-xl px-4 py-3 text-sm backdrop-blur-sm">
           {error}
         </div>
       )}
 
       {/* Success */}
       {success && (
-        <div className="bg-green-900/30 border border-green-700 text-green-300 rounded-lg px-4 py-3 text-sm">
+        <div className="bg-green-950/40 border border-green-800/50 text-green-300 rounded-xl px-4 py-3 text-sm backdrop-blur-sm">
           {success}
         </div>
       )}
 
-      {/* Amount */}
+      {/* Amount — large & prominent */}
       <div>
-        <label className="label">Jumlah (Rupiah) *</label>
-        <input
-          type="text"
-          inputMode="numeric"
-          className="input-field text-lg font-semibold"
-          placeholder="0"
-          value={amount}
-          onChange={handleAmountChange}
-          required
-        />
+        <label className="label">Jumlah</label>
+        <div className="relative">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-xl font-light">Rp</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            className="w-full bg-dark-700/50 border border-dark-500 rounded-xl px-4 py-5 pl-10 text-3xl font-bold text-white placeholder-gray-600 input-glow"
+            placeholder="0"
+            value={amount}
+            onChange={handleAmountChange}
+            required
+          />
+        </div>
       </div>
 
-      {/* Category */}
+      {/* Category — pill selector */}
       <div>
-        <label className="label">Kategori *</label>
-        <select
-          className="input-field cursor-pointer"
-          value={category}
-          onChange={(e) => setCategory(e.target.value as Category)}
-        >
-          {Object.entries(CATEGORIES).map(([key, info]) => (
-            <option key={key} value={key}>
-              {info.icon} {info.label}
-            </option>
+        <label className="label">Kategori</label>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategory(cat)}
+              className="category-pill selected"
+              style={{
+                color: CATEGORY_COLORS[cat],
+                borderColor: category === cat ? CATEGORY_COLORS[cat] : 'transparent',
+                backgroundColor: category === cat ? `${CATEGORY_COLORS[cat]}15` : 'rgba(255,255,255,0.03)',
+              }}
+            >
+              {CATEGORY_ICONS[cat]}
+              {CATEGORY_LABELS[cat]}
+            </button>
           ))}
-        </select>
+        </div>
       </div>
 
       {/* Description */}
       <div>
         <label className="label">Deskripsi</label>
         <textarea
-          className="input-field resize-none"
+          className="input-field input-glow resize-none"
           rows={3}
           placeholder="Keterangan tambahan (opsional)"
           value={description}
@@ -204,20 +236,26 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
 
       {/* Receipt Upload */}
       <div>
-        <label className="label">Unggah Struk (opsional)</label>
+        <label className="label">Foto Resi Belanja</label>
 
         {!receiptPreview ? (
           <div
-            className="border-2 border-dashed border-dark-500 rounded-lg p-6 text-center cursor-pointer hover:border-accent transition-colors"
+            className="dropzone p-8 text-center cursor-pointer"
             onClick={() => fileInputRef.current?.click()}
           >
-            <Upload className="mx-auto mb-2 text-gray-500" size={32} />
-            <p className="text-sm text-gray-400">
-              Klik untuk mengunggah gambar struk
-            </p>
-            <p className="text-xs text-gray-600 mt-1">
-              Maks 5MB, format gambar
-            </p>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
+                <Upload size={22} className="text-accent" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-300 font-medium">
+                  Taruh foto resi di sini
+                </p>
+                <p className="text-xs text-gray-600 mt-1">
+                  atau klik untuk pilih file &mdash; maks 5MB
+                </p>
+              </div>
+            </div>
             <input
               ref={fileInputRef}
               type="file"
@@ -227,21 +265,21 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
             />
           </div>
         ) : (
-          <div className="relative inline-block w-full">
-            <div className="border border-dark-500 rounded-lg overflow-hidden">
+          <div className="space-y-3">
+            <div className="receipt-preview">
               <img
                 src={receiptPreview}
-                alt="Preview struk"
-                className="w-full h-48 object-contain bg-dark-700"
+                alt="Preview resi belanja"
+                className="w-full h-56 object-contain bg-dark-700/50"
               />
+              <button
+                type="button"
+                onClick={removeReceipt}
+                className="absolute top-3 right-3 bg-dark-900/80 hover:bg-red-600 text-white rounded-full p-2 transition-all backdrop-blur-sm"
+              >
+                <X size={14} />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={removeReceipt}
-              className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-1.5 transition-colors"
-            >
-              <X size={14} />
-            </button>
           </div>
         )}
       </div>
@@ -250,14 +288,21 @@ export default function ExpenseForm({ userId }: ExpenseFormProps) {
       <button
         type="submit"
         disabled={loading}
-        className="btn-primary w-full flex items-center justify-center gap-2 py-3 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full relative overflow-hidden rounded-xl py-4 font-semibold text-dark-900 transition-all duration-200 btn-press disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-accent to-emerald-400 hover:from-emerald-400 hover:to-accent"
       >
-        {loading ? (
-          <Loader2 size={18} className="animate-spin" />
-        ) : (
-          <Upload size={18} />
-        )}
-        {loading ? 'Menyimpan...' : 'Simpan Pengeluaran'}
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          {loading ? (
+            <>
+              <Loader2 size={18} className="spin-slow" />
+              Menyimpan...
+            </>
+          ) : (
+            <>
+              <Upload size={18} />
+              Simpan Pengeluaran
+            </>
+          )}
+        </span>
       </button>
     </form>
   )

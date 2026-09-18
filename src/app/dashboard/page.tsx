@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase'
-import { Expense, Category, CATEGORIES } from '@/types'
+import { Expense, Category } from '@/types'
 import { formatRupiah, getMonthKey, formatMonth } from '@/lib/utils'
 import PieChartCategory from '@/components/PieChartCategory'
 import BarChartMonthly from '@/components/BarChartMonthly'
@@ -43,10 +43,8 @@ export default function DashboardPage() {
 
   const currentMonthKey = getMonthKey(new Date().toISOString())
 
-  // Filter this month's expenses
   const monthExpenses = expenses.filter((e) => getMonthKey(e.created_at) === currentMonthKey)
 
-  // Summary stats
   const summary: Summary = {
     totalMonth: monthExpenses.reduce((sum, e) => sum + e.amount, 0),
     avgDaily: monthExpenses.length > 0
@@ -56,7 +54,6 @@ export default function DashboardPage() {
     totalCount: monthExpenses.length,
   }
 
-  // Pie chart data: by category
   const categoryTotals: Record<string, number> = {}
   monthExpenses.forEach((e) => {
     categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount
@@ -66,7 +63,6 @@ export default function DashboardPage() {
     total,
   }))
 
-  // Bar chart data: last 6 months
   const monthlyTotals: Record<string, number> = {}
   const now = new Date()
   for (let i = 5; i >= 0; i--) {
@@ -90,7 +86,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-accent" />
+        <Loader2 size={28} className="animate-spin text-accent" />
       </div>
     )
   }
@@ -98,84 +94,74 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="text-gray-400 text-sm mt-1">
-          Ringkasan pengeluaran Anda
+      <div className="fade-in">
+        <h1 className="text-3xl font-bold gradient-text tracking-tight">
+          Ringkasan
+        </h1>
+        <p className="text-gray-500 text-sm mt-1">
+          Gambaran pengeluaran Anda bulan ini
         </p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="card">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
-              <TrendingUp size={20} className="text-accent" />
+        <div className="glass-card p-5 summary-card glow-accent-subtle fade-in stagger-1">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-accent/15 flex items-center justify-center">
+              <TrendingUp size={18} className="text-accent" />
             </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide">
-                Total Bulan Ini
-              </p>
-              <p className="text-xl font-bold text-accent">
-                {formatRupiah(summary.totalMonth)}
-              </p>
-            </div>
+            <p className="label mb-0">Total Bulan Ini</p>
           </div>
+          <p className="text-2xl font-bold text-white tabular-nums">
+            {formatRupiah(summary.totalMonth)}
+          </p>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-              <Calendar size={20} className="text-blue-400" />
+        <div className="glass-card p-5 summary-card fade-in stagger-2">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center">
+              <Calendar size={18} className="text-blue-400" />
             </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide">
-                Rata-rata Harian
-              </p>
-              <p className="text-xl font-bold text-white">
-                {formatRupiah(Math.round(summary.avgDaily))}
-              </p>
-            </div>
+            <p className="label mb-0">Rata-rata Harian</p>
           </div>
+          <p className="text-2xl font-bold text-white tabular-nums">
+            {formatRupiah(Math.round(summary.avgDaily))}
+          </p>
         </div>
 
-        <div className="card">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-              <Receipt size={20} className="text-purple-400" />
+        <div className="glass-card p-5 summary-card fade-in stagger-3">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center">
+              <Receipt size={18} className="text-purple-400" />
             </div>
-            <div>
-              <p className="text-xs text-gray-500 uppercase tracking-wide">
-                Transaksi Bulan Ini
-              </p>
-              <p className="text-xl font-bold text-white">
-                {summary.totalCount}
-              </p>
-            </div>
+            <p className="label mb-0">Transaksi</p>
           </div>
+          <p className="text-2xl font-bold text-white">
+            {summary.totalCount}
+          </p>
         </div>
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="card">
-          <h2 className="text-base font-semibold text-white mb-4">
-            Pengeluaran per Kategori
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div className="glass-card p-6 fade-in stagger-2">
+          <h2 className="text-sm font-semibold text-gray-300 mb-5 tracking-wide uppercase">
+            Per Kategori
           </h2>
           <PieChartCategory data={pieData} />
         </div>
 
-        <div className="card">
-          <h2 className="text-base font-semibold text-white mb-4">
-            Tren 6 Bulan Terakhir
+        <div className="glass-card p-6 fade-in stagger-3">
+          <h2 className="text-sm font-semibold text-gray-300 mb-5 tracking-wide uppercase">
+            Tren 6 Bulan
           </h2>
           <BarChartMonthly data={barData} />
         </div>
       </div>
 
       {/* Recent Transactions */}
-      <div className="card">
-        <h2 className="text-base font-semibold text-white mb-4">
+      <div className="glass-card p-6 fade-in stagger-4">
+        <h2 className="text-sm font-semibold text-gray-300 mb-5 tracking-wide uppercase">
           Transaksi Terbaru
         </h2>
         <ExpenseList

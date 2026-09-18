@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Trash2, ImageIcon, Receipt } from 'lucide-react'
+import { Trash2, Receipt } from 'lucide-react'
 import { Expense, CATEGORIES } from '@/types'
 import { formatRupiah, formatDate } from '@/lib/utils'
 import ReceiptModal from './ReceiptModal'
@@ -25,8 +25,8 @@ export default function ExpenseList({
 
   if (!expenses || expenses.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-        <Receipt size={40} className="mb-3 opacity-40" />
+      <div className="flex flex-col items-center justify-center py-16 text-gray-600">
+        <Receipt size={36} className="mb-3 opacity-30" />
         <p className="text-sm">{emptyMessage}</p>
       </div>
     )
@@ -38,80 +38,81 @@ export default function ExpenseList({
       setConfirmDelete(null)
     } else {
       setConfirmDelete(id)
-      // Auto-cancel after 3 seconds
       setTimeout(() => setConfirmDelete((prev) => (prev === id ? null : prev)), 3000)
     }
   }
 
   return (
     <>
-      <div className="space-y-2">
-        {expenses.map((expense) => (
+      <div className="space-y-1">
+        {expenses.map((expense, i) => (
           <div
             key={expense.id}
-            className="flex items-center gap-3 p-3 bg-dark-700 rounded-lg hover:bg-dark-600 transition-colors group"
+            className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/[0.03] transition-colors group fade-in"
+            style={{ animationDelay: `${i * 0.04}s`, animationFillMode: 'both' }}
           >
             {/* Receipt thumbnail */}
             {showReceipt && (
               <button
                 onClick={() => setSelectedExpense(expense)}
-                className="flex-shrink-0 w-12 h-12 rounded-lg overflow-hidden bg-dark-500 flex items-center justify-center hover:ring-2 hover:ring-accent transition-all"
+                className="flex-shrink-0 w-11 h-11 rounded-lg overflow-hidden bg-dark-600 flex items-center justify-center hover:ring-2 hover:ring-accent/50 transition-all"
               >
                 {expense.receipt_url ? (
                   <Image
                     src={expense.receipt_url}
-                    alt="Struk"
-                    width={48}
-                    height={48}
+                    alt="Resi"
+                    width={44}
+                    height={44}
                     className="object-cover w-full h-full"
                   />
                 ) : (
-                  <ImageIcon size={20} className="text-gray-600" />
+                  <Receipt size={18} className="text-gray-600" />
                 )}
               </button>
             )}
 
-            {/* Category badge */}
+            {/* Category indicator */}
             <div
-              className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-lg"
-              style={{ backgroundColor: `${CATEGORIES[expense.category]?.color}20` }}
-              title={CATEGORIES[expense.category]?.label}
+              className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: `${CATEGORIES[expense.category]?.color ?? '#6b7280'}18` }}
             >
-              {CATEGORIES[expense.category]?.icon}
+              <div
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: CATEGORIES[expense.category]?.color ?? '#6b7280' }}
+              />
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">
+              <p className="text-sm font-medium text-gray-200 truncate">
                 {expense.description || CATEGORIES[expense.category]?.label}
               </p>
-              <p className="text-xs text-gray-500">
-                {formatDate(expense.created_at)} · {CATEGORIES[expense.category]?.label}
+              <p className="text-xs text-gray-600">
+                {formatDate(expense.created_at)} &middot; {CATEGORIES[expense.category]?.label}
               </p>
             </div>
 
             {/* Amount */}
-            <p className="text-sm font-bold text-accent flex-shrink-0">
+            <p className="text-sm font-bold text-accent flex-shrink-0 tabular-nums">
               {formatRupiah(expense.amount)}
             </p>
 
-            {/* Delete button */}
+            {/* Delete */}
             <button
               onClick={() => handleDelete(expense.id)}
               className={`flex-shrink-0 p-2 rounded-lg transition-all ${
                 confirmDelete === expense.id
                   ? 'bg-red-600 text-white'
-                  : 'text-gray-600 hover:text-red-400 hover:bg-dark-500'
+                  : 'text-gray-700 opacity-0 group-hover:opacity-100 hover:text-red-400 hover:bg-red-950/30'
               }`}
               title={confirmDelete === expense.id ? 'Klik lagi untuk konfirmasi' : 'Hapus'}
             >
-              <Trash2 size={16} />
+              <Trash2 size={15} />
             </button>
           </div>
         ))}
       </div>
 
-      {/* Receipt Modal */}
       {selectedExpense && (
         <ReceiptModal
           expense={selectedExpense}

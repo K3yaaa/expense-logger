@@ -13,15 +13,14 @@ export interface Expense {
 export interface CategoryInfo {
   label: string
   color: string
-  icon: string
 }
 
 export const CATEGORIES: Record<Category, CategoryInfo> = {
-  makanan: { label: 'Makanan', color: '#f59e0b', icon: '🍔' },
-  transport: { label: 'Transport', color: '#3b82f6', icon: '🚗' },
-  belanja: { label: 'Belanja', color: '#8b5cf6', icon: '🛒' },
-  hiburan: { label: 'Hiburan', color: '#ec4899', icon: '🎬' },
-  lain: { label: 'Lainnya', color: '#6b7280', icon: '📦' },
+  makanan: { label: 'Makanan', color: '#f59e0b' },
+  transport: { label: 'Transport', color: '#3b82f6' },
+  belanja: { label: 'Belanja', color: '#8b5cf6' },
+  hiburan: { label: 'Hiburan', color: '#ec4899' },
+  lain: { label: 'Lainnya', color: '#6b7280' },
 }
 
 export const MONTHS = [

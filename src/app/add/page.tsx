@@ -21,34 +21,37 @@ export default function AddPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={32} className="animate-spin text-accent" />
+        <Loader2 size={28} className="animate-spin text-accent" />
       </div>
     )
   }
 
   if (!userId) {
     return (
-      <div className="text-center text-gray-400 py-12">
+      <div className="text-center text-gray-500 py-16">
         Silakan masuk terlebih dahulu.
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 max-w-2xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
-          <PlusCircle size={22} className="text-accent" />
+      <div className="text-center fade-in">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent/10 mb-4">
+          <PlusCircle size={28} className="text-accent" />
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-white">Tambah Pengeluaran</h1>
-          <p className="text-gray-400 text-sm">Catat pengeluaran baru Anda</p>
-        </div>
+        <h1 className="text-3xl font-bold gradient-text tracking-tight">
+          Catat Pengeluaran
+        </h1>
+        <p className="text-gray-500 text-sm mt-2">
+          Tambah transaksi baru ke laporan Anda
+        </p>
+        <div className="divider mt-6 max-w-xs mx-auto" />
       </div>
 
       {/* Form */}
-      <div className="card">
+      <div className="glass-card p-6 fade-in stagger-2">
         <ExpenseForm userId={userId} />
       </div>
     </div>

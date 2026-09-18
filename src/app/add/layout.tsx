@@ -15,9 +15,9 @@ export default async function AddLayout({
   }
 
   return (
-    <div className="min-h-screen bg-dark-900">
+    <div className="min-h-screen ambient-bg">
       <Navbar userEmail={user.email} />
-      <main className="max-w-2xl mx-auto px-4 py-6">
+      <main className="max-w-2xl mx-auto px-4 py-8">
         {children}
       </main>
     </div>

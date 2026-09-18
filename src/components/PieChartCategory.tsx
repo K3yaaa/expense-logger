@@ -1,6 +1,6 @@
 'use client'
 
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { CATEGORIES, Category } from '@/types'
 
 interface PieChartCategoryProps {
@@ -18,7 +18,7 @@ const COLORS: Record<Category, string> = {
 export default function PieChartCategory({ data }: PieChartCategoryProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-500 text-sm">
+      <div className="flex items-center justify-center h-64 text-gray-600 text-sm">
         Belum ada data untuk ditampilkan.
       </div>
     )
@@ -31,20 +31,16 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
   }))
 
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={260}>
       <PieChart>
         <Pie
           data={chartData}
           cx="50%"
           cy="50%"
-          innerRadius={60}
-          outerRadius={100}
+          innerRadius={55}
+          outerRadius={90}
           paddingAngle={3}
           dataKey="value"
-          label={({ name, percent }) =>
-            `${name} ${(percent * 100).toFixed(0)}%`
-          }
-          labelLine
         >
           {chartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -59,15 +55,26 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
             }).format(value)
           }
           contentStyle={{
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #333',
-            borderRadius: '8px',
-            color: '#e5e5e5',
+            backgroundColor: 'rgba(17, 17, 17, 0.9)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: '10px',
+            color: '#d4d4d4',
+            fontSize: '13px',
+            backdropFilter: 'blur(8px)',
           }}
+          itemStyle={{ color: '#d4d4d4' }}
         />
-        <Legend
-          wrapperStyle={{ fontSize: '12px', color: '#9ca3af' }}
-        />
+        {/* Center label */}
+        <Pie
+          data={[{ name: '', value: chartData.reduce((s, d) => s + d.value, 0) }]}
+          cx="50%"
+          cy="50%"
+          innerRadius={0}
+          outerRadius={0}
+          dataKey="value"
+        >
+          <Cell fill="transparent" />
+        </Pie>
       </PieChart>
     </ResponsiveContainer>
   )
