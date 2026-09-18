@@ -18,7 +18,7 @@ interface BarChartMonthlyProps {
 export default function BarChartMonthly({ data }: BarChartMonthlyProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-600 text-sm">
+      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(196,167,231,0.3)' }}>
         Belum ada data untuk ditampilkan.
       </div>
     )
@@ -27,15 +27,15 @@ export default function BarChartMonthly({ data }: BarChartMonthlyProps) {
   return (
     <ResponsiveContainer width="100%" height={260}>
       <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,215,0,0.06)" vertical={false} />
         <XAxis
           dataKey="month"
-          tick={{ fontSize: 11, fill: '#6b7280' }}
-          axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
+          tick={{ fontSize: 11, fill: 'rgba(196,167,231,0.5)' }}
+          axisLine={{ stroke: 'rgba(255,215,0,0.08)' }}
           tickLine={false}
         />
         <YAxis
-          tick={{ fontSize: 11, fill: '#6b7280' }}
+          tick={{ fontSize: 11, fill: 'rgba(196,167,231,0.5)' }}
           axisLine={false}
           tickLine={false}
           tickFormatter={(value) => {
@@ -47,21 +47,28 @@ export default function BarChartMonthly({ data }: BarChartMonthlyProps) {
         <Tooltip
           formatter={(value: number) => [formatRupiah(value), 'Total']}
           contentStyle={{
-            backgroundColor: 'rgba(17, 17, 17, 0.9)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '10px',
-            color: '#d4d4d4',
+            backgroundColor: 'rgba(13,13,43,0.95)',
+            border: '1px solid rgba(255,215,0,0.15)',
+            borderRadius: '12px',
+            color: '#f5f0e0',
             fontSize: '13px',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
           }}
-          cursor={{ fill: 'rgba(34, 197, 94, 0.06)' }}
+          cursor={{ fill: 'rgba(255,215,0,0.04)' }}
         />
         <Bar
           dataKey="total"
-          fill="#22c55e"
+          fill="url(#goldGradient)"
           radius={[4, 4, 0, 0]}
           maxBarSize={40}
         />
+        <defs>
+          <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ffd700" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="#b8860b" stopOpacity={0.7} />
+          </linearGradient>
+        </defs>
       </BarChart>
     </ResponsiveContainer>
   )

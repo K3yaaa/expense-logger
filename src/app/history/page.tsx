@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/supabase'
-import { Expense, Category, CATEGORIES } from '@/types'
+import { Expense, Category, CATEGORIES, SOURCES, Source } from '@/types'
 import { getMonthKey, formatRupiah } from '@/lib/utils'
 import ExpenseList from '@/components/ExpenseList'
 import { History, Filter, Loader2, UtensilsCrossed, Bus, ShoppingBag, Film, MoreHorizontal } from 'lucide-react'
@@ -19,6 +19,7 @@ export default function HistoryPage() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [loading, setLoading] = useState(true)
   const [categoryFilter, setCategoryFilter] = useState<Category | ''>('')
+  const [sourceFilter, setSourceFilter] = useState<Source | ''>('')
   const [monthFilter, setMonthFilter] = useState<string>('')
 
   const fetchExpenses = useCallback(async () => {
@@ -51,6 +52,7 @@ export default function HistoryPage() {
 
   const filteredExpenses = expenses.filter((e) => {
     if (categoryFilter && e.category !== categoryFilter) return false
+    if (sourceFilter && e.source !== sourceFilter) return false
     if (monthFilter && getMonthKey(e.created_at) !== monthFilter) return false
     return true
   })
@@ -64,22 +66,22 @@ export default function HistoryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={28} className="animate-spin text-accent" />
+        <Loader2 size={28} className="spin-slow" style={{ color: '#ffd700' }} />
       </div>
     )
   }
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
+    <div className="space-y-8 max-w-4xl mx-auto relative z-10">
       {/* Header */}
       <div className="fade-in">
-        <h1 className="text-3xl font-bold gradient-text tracking-tight">
+        <h1 className="text-3xl font-bold van-gogh-text tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
           Riwayat
         </h1>
-        <p className="text-gray-500 text-sm mt-1">
+        <p className="text-sm mt-1" style={{ color: 'rgba(196,167,231,0.5)' }}>
           {filteredExpenses.length} transaksi
           {filteredExpenses.length > 0 && (
-            <span className="text-accent font-medium ml-1">
+            <span className="font-medium ml-1" style={{ color: '#ffd700' }}>
               ({formatRupiah(totalFiltered)})
             </span>
           )}
@@ -89,11 +91,11 @@ export default function HistoryPage() {
       {/* Filters */}
       <div className="glass-card p-5 fade-in stagger-1">
         <div className="flex items-center gap-2 mb-5">
-          <Filter size={15} className="text-gray-500" />
-          <h2 className="text-sm font-medium text-gray-400">Filter</h2>
+          <Filter size={15} style={{ color: 'rgba(196,167,231,0.5)' }} />
+          <h2 className="text-sm font-medium" style={{ color: 'rgba(196,167,231,0.5)' }}>Filter</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Category Filter */}
           <div>
             <label className="label">Kategori</label>
@@ -101,7 +103,11 @@ export default function HistoryPage() {
               <button
                 onClick={() => setCategoryFilter('')}
                 className={`category-pill ${categoryFilter === '' ? 'selected' : ''}`}
-                style={{ color: '#9ca3af', borderColor: categoryFilter === '' ? '#9ca3af' : 'transparent', backgroundColor: categoryFilter === '' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)' }}
+                style={{
+                  color: categoryFilter === '' ? 'rgba(245,240,224,0.6)' : 'rgba(245,240,224,0.3)',
+                  borderColor: categoryFilter === '' ? 'rgba(245,240,224,0.3)' : 'transparent',
+                  backgroundColor: categoryFilter === '' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
+                }}
               >
                 Semua
               </button>
@@ -111,13 +117,45 @@ export default function HistoryPage() {
                   onClick={() => setCategoryFilter(categoryFilter === cat ? '' : cat)}
                   className="category-pill"
                   style={{
-                    color: CATEGORIES[cat].color,
+                    color: categoryFilter === cat ? CATEGORIES[cat].color : 'rgba(245,240,224,0.3)',
                     borderColor: categoryFilter === cat ? CATEGORIES[cat].color : 'transparent',
-                    backgroundColor: categoryFilter === cat ? `${CATEGORIES[cat].color}15` : 'rgba(255,255,255,0.03)',
+                    backgroundColor: categoryFilter === cat ? `${CATEGORIES[cat].color}15` : 'rgba(255,255,255,0.02)',
                   }}
                 >
                   {CATEGORY_ICONS[cat]}
                   {CATEGORIES[cat].label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Source Filter */}
+          <div>
+            <label className="label">Sumber Dana</label>
+            <div className="flex flex-wrap gap-2 mt-1.5">
+              <button
+                onClick={() => setSourceFilter('')}
+                className={`category-pill ${sourceFilter === '' ? 'selected' : ''}`}
+                style={{
+                  color: sourceFilter === '' ? 'rgba(245,240,224,0.6)' : 'rgba(245,240,224,0.3)',
+                  borderColor: sourceFilter === '' ? 'rgba(245,240,224,0.3)' : 'transparent',
+                  backgroundColor: sourceFilter === '' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
+                }}
+              >
+                Semua
+              </button>
+              {(Object.keys(SOURCES) as Source[]).map((src) => (
+                <button
+                  key={src}
+                  onClick={() => setSourceFilter(sourceFilter === src ? '' : src)}
+                  className="category-pill"
+                  style={{
+                    color: sourceFilter === src ? SOURCES[src].color : 'rgba(245,240,224,0.3)',
+                    borderColor: sourceFilter === src ? SOURCES[src].color : 'transparent',
+                    backgroundColor: sourceFilter === src ? SOURCES[src].bg : 'rgba(255,255,255,0.02)',
+                  }}
+                >
+                  {SOURCES[src].label}
                 </button>
               ))}
             </div>
@@ -145,13 +183,17 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        {(categoryFilter || monthFilter) && (
+        {(categoryFilter || sourceFilter || monthFilter) && (
           <button
             onClick={() => {
               setCategoryFilter('')
+              setSourceFilter('')
               setMonthFilter('')
             }}
-            className="mt-4 text-xs text-gray-500 hover:text-accent transition-colors"
+            className="mt-4 text-xs transition-colors"
+            style={{ color: 'rgba(196,167,231,0.4)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ffd700')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(196,167,231,0.4)')}
           >
             Hapus filter
           </button>
@@ -161,15 +203,15 @@ export default function HistoryPage() {
       {/* Expense List */}
       <div className="glass-card p-5 fade-in stagger-2">
         <div className="flex items-center gap-2 mb-5">
-          <History size={15} className="text-gray-500" />
-          <h2 className="text-sm font-medium text-gray-400">Transaksi</h2>
+          <History size={15} style={{ color: 'rgba(196,167,231,0.5)' }} />
+          <h2 className="text-sm font-medium" style={{ color: 'rgba(196,167,231,0.5)' }}>Transaksi</h2>
         </div>
         <ExpenseList
           expenses={filteredExpenses}
           onDelete={handleDelete}
           showReceipt
           emptyMessage={
-            categoryFilter || monthFilter
+            categoryFilter || sourceFilter || monthFilter
               ? 'Tidak ada transaksi yang cocok dengan filter.'
               : 'Belum ada pengeluaran yang tercatat.'
           }

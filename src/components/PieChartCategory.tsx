@@ -8,17 +8,17 @@ interface PieChartCategoryProps {
 }
 
 const COLORS: Record<Category, string> = {
-  makanan: '#f59e0b',
-  transport: '#3b82f6',
-  belanja: '#8b5cf6',
-  hiburan: '#ec4899',
-  lain: '#6b7280',
+  makanan: '#f0c040',
+  transport: '#00d4ff',
+  belanja: '#c4a7e7',
+  hiburan: '#ff9ecd',
+  lain: '#8b9dc3',
 }
 
 export default function PieChartCategory({ data }: PieChartCategoryProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-600 text-sm">
+      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(196,167,231,0.3)' }}>
         Belum ada data untuk ditampilkan.
       </div>
     )
@@ -27,7 +27,7 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
   const chartData = data.map((item) => ({
     name: CATEGORIES[item.category]?.label ?? item.category,
     value: item.total,
-    color: COLORS[item.category] ?? '#6b7280',
+    color: COLORS[item.category] ?? '#8b9dc3',
   }))
 
   return (
@@ -43,7 +43,11 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
           dataKey="value"
         >
           {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
+            <Cell
+              key={`cell-${index}`}
+              fill={entry.color}
+              style={{ filter: `drop-shadow(0 0 6px ${entry.color}40)` }}
+            />
           ))}
         </Pie>
         <Tooltip
@@ -55,26 +59,16 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
             }).format(value)
           }
           contentStyle={{
-            backgroundColor: 'rgba(17, 17, 17, 0.9)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '10px',
-            color: '#d4d4d4',
+            backgroundColor: 'rgba(13,13,43,0.95)',
+            border: '1px solid rgba(255,215,0,0.15)',
+            borderRadius: '12px',
+            color: '#f5f0e0',
             fontSize: '13px',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(12px)',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
           }}
-          itemStyle={{ color: '#d4d4d4' }}
+          itemStyle={{ color: '#f5f0e0' }}
         />
-        {/* Center label */}
-        <Pie
-          data={[{ name: '', value: chartData.reduce((s, d) => s + d.value, 0) }]}
-          cx="50%"
-          cy="50%"
-          innerRadius={0}
-          outerRadius={0}
-          dataKey="value"
-        >
-          <Cell fill="transparent" />
-        </Pie>
       </PieChart>
     </ResponsiveContainer>
   )

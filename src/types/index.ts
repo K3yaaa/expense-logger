@@ -1,4 +1,5 @@
 export type Category = 'makanan' | 'transport' | 'belanja' | 'hiburan' | 'lain'
+export type Source = 'bekal' | 'beasiswa' | 'lain'
 
 export interface Expense {
   id: string
@@ -8,6 +9,7 @@ export interface Expense {
   description: string
   receipt_url: string | null
   created_at: string
+  source: Source
 }
 
 export interface CategoryInfo {
@@ -16,12 +18,18 @@ export interface CategoryInfo {
 }
 
 export const CATEGORIES: Record<Category, CategoryInfo> = {
-  makanan: { label: 'Makanan', color: '#f59e0b' },
-  transport: { label: 'Transport', color: '#3b82f6' },
-  belanja: { label: 'Belanja', color: '#8b5cf6' },
-  hiburan: { label: 'Hiburan', color: '#ec4899' },
-  lain: { label: 'Lainnya', color: '#6b7280' },
+  makanan: { label: 'Makanan', color: '#f0c040' },
+  transport: { label: 'Transport', color: '#00d4ff' },
+  belanja: { label: 'Belanja', color: '#c4a7e7' },
+  hiburan: { label: 'Hiburan', color: '#ff9ecd' },
+  lain: { label: 'Lainnya', color: '#8b9dc3' },
 }
+
+export const SOURCES = {
+  bekal: { label: 'Bekal', color: '#00d4ff', bg: 'rgba(0,212,255,0.15)' },
+  beasiswa: { label: 'Beasiswa', color: '#ffd700', bg: 'rgba(255,215,0,0.15)' },
+  lain: { label: 'Lain', color: '#c4a7e7', bg: 'rgba(196,167,231,0.15)' },
+} as const
 
 export const MONTHS = [
   'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
