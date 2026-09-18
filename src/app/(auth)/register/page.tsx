@@ -34,10 +34,12 @@ export default function RegisterPage() {
     setLoading(true)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { error, data } = await supabase.auth.signUp({
       email,
       password,
     })
+
+    console.log('Signup response:', { error, data })
 
     if (error) {
       setError(error.message)
