@@ -29,27 +29,7 @@ export default function Navbar({ userEmail }: NavbarProps) {
   const isActive = (href: string) => pathname === href
 
   return (
-    <nav className="sticky top-0 z-50" style={{ background: 'rgba(13,13,43,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,215,0,0.08)' }}>
-      {/* Animated star dots */}
-      <style>{`
-        @keyframes star-pulse {
-          0%, 100% { opacity: 0.3; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.3); }
-        }
-        .nav-star-1 { animation: star-pulse 2.5s ease-in-out infinite; }
-        .nav-star-2 { animation: star-pulse 3.2s ease-in-out infinite 0.8s; }
-        .nav-star-3 { animation: star-pulse 4s ease-in-out infinite 1.5s; }
-      `}</style>
-      <div className="absolute top-3 left-8">
-        <span className="nav-star-1 inline-block w-1 h-1 rounded-full bg-yellow-400" style={{ boxShadow: '0 0 6px rgba(255,215,0,0.8)' }} />
-      </div>
-      <div className="absolute top-5 right-20">
-        <span className="nav-star-2 inline-block w-0.5 h-0.5 rounded-full bg-yellow-300" style={{ boxShadow: '0 0 4px rgba(255,215,0,0.6)' }} />
-      </div>
-      <div className="absolute top-2 right-32">
-        <span className="nav-star-3 inline-block w-0.5 h-0.5 rounded-full bg-cyan-300" style={{ boxShadow: '0 0 4px rgba(0,212,255,0.6)' }} />
-      </div>
-
+    <nav className="sticky top-0 z-50 relative" style={{ background: 'rgba(13,13,43,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,215,0,0.08)' }}>
       <div className="relative max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

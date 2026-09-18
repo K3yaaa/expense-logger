@@ -38,51 +38,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
-      style={{
-        background: `
-          radial-gradient(ellipse 120% 80% at 50% -10%, #1a1a4e 0%, transparent 55%),
-          radial-gradient(ellipse 80% 60% at 80% 80%, rgba(45,74,140,0.3) 0%, transparent 50%),
-          radial-gradient(ellipse 60% 50% at 20% 70%, rgba(0,212,255,0.08) 0%, transparent 45%),
-          radial-gradient(ellipse 40% 30% at 70% 20%, rgba(255,215,0,0.05) 0%, transparent 40%),
-          #0a0a0a
-        `,
-      }}
-    >
-      {/* Scattered gold stars */}
-      <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        {[
-          { x: '8%', y: '10%', s: 2.5, delay: '0s' },
-          { x: '88%', y: '8%', s: 2, delay: '0.4s' },
-          { x: '50%', y: '5%', s: 1.8, delay: '0.8s' },
-          { x: '75%', y: '15%', s: 1.5, delay: '1.2s' },
-          { x: '25%', y: '20%', s: 2, delay: '1.6s' },
-          { x: '92%', y: '30%', s: 1.2, delay: '2s' },
-          { x: '5%', y: '40%', s: 1.8, delay: '0.3s' },
-          { x: '60%', y: '3%', s: 1.5, delay: '1s' },
-          { x: '15%', y: '55%', s: 1.2, delay: '1.4s' },
-          { x: '85%', y: '45%', s: 2, delay: '0.6s' },
-          { x: '45%', y: '2%', s: 1, delay: '2.2s' },
-        ].map((star, i) => (
-          <span
-            key={i}
-            style={{
-              position: 'absolute',
-              left: star.x,
-              top: star.y,
-              width: `${star.s}px`,
-              height: `${star.s}px`,
-              borderRadius: '50%',
-              background: '#ffd700',
-              boxShadow: `0 0 ${star.s * 2}px rgba(255,215,0,0.8)`,
-              animation: `star-twinkle 3s ease-in-out infinite`,
-              animationDelay: star.delay,
-            }}
-          />
-        ))}
-      </div>
-
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
       {/* Glass card */}
       <div
         className="p-8 w-full max-w-md relative z-10 fade-in"
@@ -194,13 +150,6 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
-
-      <style>{`
-        @keyframes star-twinkle {
-          0%, 100% { opacity: 0.3; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.3); }
-        }
-      `}</style>
     </div>
   )
 }
