@@ -25,7 +25,7 @@ export default function ExpenseList({
 
   if (!expenses || expenses.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16" style={{ color: 'rgba(196,167,231,0.3)' }}>
+      <div className="flex flex-col items-center justify-center py-16" style={{ color: 'rgba(156,142,196,0.25)' }}>
         <Receipt size={36} className="mb-3 opacity-30" />
         <p className="text-sm">{emptyMessage}</p>
       </div>
@@ -54,7 +54,7 @@ export default function ExpenseList({
               animationFillMode: 'both',
               background: 'transparent',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,215,0,0.03)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(201,169,110,0.02)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
             {/* Receipt thumbnail */}
@@ -62,7 +62,7 @@ export default function ExpenseList({
               <button
                 onClick={() => setSelectedExpense(expense)}
                 className="flex-shrink-0 w-11 h-11 rounded-lg overflow-hidden flex items-center justify-center transition-all"
-                style={{ background: 'rgba(45,74,140,0.3)', border: '1px solid rgba(255,215,0,0.08)' }}
+                style={{ background: 'rgba(40,53,147,0.2)', border: '1px solid rgba(201,169,110,0.06)' }}
               >
                 {expense.receipt_url ? (
                   <Image
@@ -73,7 +73,7 @@ export default function ExpenseList({
                     className="object-cover w-full h-full"
                   />
                 ) : (
-                  <Receipt size={18} style={{ color: 'rgba(196,167,231,0.3)' }} />
+                  <Receipt size={18} style={{ color: 'rgba(156,142,196,0.25)' }} />
                 )}
               </button>
             )}
@@ -81,21 +81,21 @@ export default function ExpenseList({
             {/* Category indicator */}
             <div
               className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: `${CATEGORIES[expense.category]?.color ?? '#8b9dc3'}15` }}
+              style={{ backgroundColor: `${CATEGORIES[expense.category]?.color ?? '#8d9eb8'}12` }}
             >
               <div
                 className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: CATEGORIES[expense.category]?.color ?? '#8b9dc3', boxShadow: `0 0 6px ${CATEGORIES[expense.category]?.color ?? '#8b9dc3'}` }}
+                style={{ backgroundColor: CATEGORIES[expense.category]?.color ?? '#8d9eb8', boxShadow: `0 0 5px ${CATEGORIES[expense.category]?.color ?? '#8d9eb8'}` }}
               />
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate" style={{ color: 'rgba(245,240,224,0.9)' }}>
+              <p className="text-sm font-medium truncate" style={{ color: 'rgba(245,240,224,0.85)' }}>
                 {expense.description || CATEGORIES[expense.category]?.label}
               </p>
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="text-xs" style={{ color: 'rgba(196,167,231,0.4)' }}>
+                <p className="text-xs" style={{ color: 'rgba(156,142,196,0.35)' }}>
                   {formatDate(expense.created_at)} &middot; {CATEGORIES[expense.category]?.label}
                 </p>
                 {/* Source badge */}
@@ -103,9 +103,9 @@ export default function ExpenseList({
                   <span
                     className="star-badge"
                     style={{
-                      color: SOURCES[expense.source as Source]?.color ?? '#c4a7e7',
-                      background: SOURCES[expense.source as Source]?.bg ?? 'rgba(196,167,231,0.15)',
-                      border: `1px solid ${SOURCES[expense.source as Source]?.color ?? '#c4a7e7'}30`,
+                      color: SOURCES[expense.source as Source]?.color ?? '#9c8ec4',
+                      background: SOURCES[expense.source as Source]?.bg ?? 'rgba(156,142,196,0.12)',
+                      border: `1px solid ${SOURCES[expense.source as Source]?.color ?? '#9c8ec4'}25`,
                     }}
                   >
                     {SOURCES[expense.source as Source]?.label ?? expense.source}
@@ -115,7 +115,7 @@ export default function ExpenseList({
             </div>
 
             {/* Amount */}
-            <p className="text-sm font-bold flex-shrink-0 tabular-nums" style={{ color: '#ffd700' }}>
+            <p className="text-sm font-bold flex-shrink-0 tabular-nums" style={{ color: '#c9a96e' }}>
               {formatRupiah(expense.amount)}
             </p>
 
@@ -124,7 +124,7 @@ export default function ExpenseList({
               onClick={() => handleDelete(expense.id)}
               className="flex-shrink-0 p-2 rounded-lg transition-all"
               style={{
-                color: confirmDelete === expense.id ? '#fff' : 'rgba(196,167,231,0.2)',
+                color: confirmDelete === expense.id ? '#fff' : 'rgba(156,142,196,0.15)',
                 background: confirmDelete === expense.id ? '#dc2626' : 'transparent',
               }}
               title={confirmDelete === expense.id ? 'Klik lagi untuk konfirmasi' : 'Hapus'}

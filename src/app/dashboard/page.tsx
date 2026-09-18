@@ -73,7 +73,7 @@ export default function DashboardPage() {
   const sourcePieData = Object.entries(sourceTotals).map(([src, total]) => ({
     label: SOURCES[src as Source]?.label ?? src,
     value: total,
-    color: SOURCES[src as Source]?.color ?? '#c4a7e7',
+    color: SOURCES[src as Source]?.color ?? '#9c8ec4',
   }))
 
   // Monthly bar data
@@ -100,7 +100,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={28} className="spin-slow" style={{ color: '#ffd700' }} />
+        <Loader2 size={28} className="spin-slow" style={{ color: '#c9a96e' }} />
       </div>
     )
   }
@@ -109,10 +109,10 @@ export default function DashboardPage() {
     <div className="space-y-8 relative z-10">
       {/* Header */}
       <div className="fade-in">
-        <h1 className="text-3xl font-bold van-gogh-text tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+        <h1 className="text-3xl font-bold elegant-text tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
           Ringkasan
         </h1>
-        <p className="text-sm mt-1" style={{ color: 'rgba(196,167,231,0.5)' }}>
+        <p className="text-sm mt-1" style={{ color: 'rgba(156,142,196,0.45)' }}>
           Gambaran pengeluaran Anda bulan ini
         </p>
       </div>
@@ -121,8 +121,8 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="glass-card p-5 summary-card glow-gold fade-in stagger-1">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,215,0,0.1)' }}>
-              <TrendingUp size={18} style={{ color: '#ffd700' }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,169,110,0.08)' }}>
+              <TrendingUp size={18} style={{ color: '#c9a96e' }} />
             </div>
             <p className="label mb-0">Total Bulan Ini</p>
           </div>
@@ -131,10 +131,10 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div className="glass-card p-5 summary-card glow-cyan fade-in stagger-2">
+        <div className="glass-card p-5 summary-card glow-soft fade-in stagger-2">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(0,212,255,0.1)' }}>
-              <Calendar size={18} style={{ color: '#00d4ff' }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(156,142,196,0.08)' }}>
+              <Calendar size={18} style={{ color: '#9c8ec4' }} />
             </div>
             <p className="label mb-0">Rata-rata Harian</p>
           </div>
@@ -143,10 +143,10 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div className="glass-card p-5 summary-card glow-lavender fade-in stagger-3">
+        <div className="glass-card p-5 summary-card glow-warm fade-in stagger-3">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(196,167,231,0.1)' }}>
-              <Receipt size={18} style={{ color: '#c4a7e7' }} />
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(212,165,116,0.08)' }}>
+              <Receipt size={18} style={{ color: '#d4a574' }} />
             </div>
             <p className="label mb-0">Transaksi</p>
           </div>
@@ -160,22 +160,22 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Category Pie */}
         <div className="glass-card p-6 fade-in stagger-2">
-          <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(196,167,231,0.7)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
+          <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(156,142,196,0.6)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
             Per Kategori
           </h2>
           <VanGoghPieChart
             data={pieData.map((d) => ({
               label: CATEGORIES[d.category]?.label ?? d.category,
               value: d.total,
-              color: CATEGORIES[d.category]?.color ?? '#8b9dc3',
+              color: CATEGORIES[d.category]?.color ?? '#8d9eb8',
             }))}
           />
         </div>
 
         {/* Source Pie */}
         <div className="glass-card p-6 fade-in stagger-3">
-          <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(255,215,0,0.7)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Sparkles size={13} style={{ color: '#ffd700' }} />
+          <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(201,169,110,0.6)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Sparkles size={13} style={{ color: '#c9a96e' }} />
             Per Sumber Dana
           </h2>
           <VanGoghPieChart data={sourcePieData} />
@@ -184,7 +184,7 @@ export default function DashboardPage() {
 
       {/* Monthly Bar Chart */}
       <div className="glass-card p-6 fade-in stagger-2">
-        <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(196,167,231,0.7)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
+        <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(156,142,196,0.6)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
           Tren 6 Bulan
         </h2>
         <BarChartMonthly data={barData} />
@@ -192,7 +192,7 @@ export default function DashboardPage() {
 
       {/* Recent Transactions */}
       <div className="glass-card p-6 fade-in stagger-4">
-        <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(196,167,231,0.7)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
+        <h2 className="text-sm font-semibold mb-5 tracking-wide uppercase" style={{ color: 'rgba(156,142,196,0.6)', fontFamily: 'Playfair Display, serif', letterSpacing: '2px' }}>
           Transaksi Terbaru
         </h2>
         <ExpenseList

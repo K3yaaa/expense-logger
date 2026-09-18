@@ -66,7 +66,7 @@ export default function HistoryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 size={28} className="spin-slow" style={{ color: '#ffd700' }} />
+        <Loader2 size={28} className="spin-slow" style={{ color: '#c9a96e' }} />
       </div>
     )
   }
@@ -75,13 +75,13 @@ export default function HistoryPage() {
     <div className="space-y-8 max-w-4xl mx-auto relative z-10">
       {/* Header */}
       <div className="fade-in">
-        <h1 className="text-3xl font-bold van-gogh-text tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+        <h1 className="text-3xl font-bold elegant-text tracking-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
           Riwayat
         </h1>
-        <p className="text-sm mt-1" style={{ color: 'rgba(196,167,231,0.5)' }}>
+        <p className="text-sm mt-1" style={{ color: 'rgba(156,142,196,0.45)' }}>
           {filteredExpenses.length} transaksi
           {filteredExpenses.length > 0 && (
-            <span className="font-medium ml-1" style={{ color: '#ffd700' }}>
+            <span className="font-medium ml-1" style={{ color: '#c9a96e' }}>
               ({formatRupiah(totalFiltered)})
             </span>
           )}
@@ -91,8 +91,8 @@ export default function HistoryPage() {
       {/* Filters */}
       <div className="glass-card p-5 fade-in stagger-1">
         <div className="flex items-center gap-2 mb-5">
-          <Filter size={15} style={{ color: 'rgba(196,167,231,0.5)' }} />
-          <h2 className="text-sm font-medium" style={{ color: 'rgba(196,167,231,0.5)' }}>Filter</h2>
+          <Filter size={15} style={{ color: 'rgba(156,142,196,0.4)' }} />
+          <h2 className="text-sm font-medium" style={{ color: 'rgba(156,142,196,0.4)' }}>Filter</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -104,9 +104,9 @@ export default function HistoryPage() {
                 onClick={() => setCategoryFilter('')}
                 className={`category-pill ${categoryFilter === '' ? 'selected' : ''}`}
                 style={{
-                  color: categoryFilter === '' ? 'rgba(245,240,224,0.6)' : 'rgba(245,240,224,0.3)',
-                  borderColor: categoryFilter === '' ? 'rgba(245,240,224,0.3)' : 'transparent',
-                  backgroundColor: categoryFilter === '' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
+                  color: categoryFilter === '' ? 'rgba(245,240,224,0.5)' : 'rgba(245,240,224,0.25)',
+                  borderColor: categoryFilter === '' ? 'rgba(245,240,224,0.2)' : 'transparent',
+                  backgroundColor: categoryFilter === '' ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.01)',
                 }}
               >
                 Semua
@@ -117,9 +117,9 @@ export default function HistoryPage() {
                   onClick={() => setCategoryFilter(categoryFilter === cat ? '' : cat)}
                   className="category-pill"
                   style={{
-                    color: categoryFilter === cat ? CATEGORIES[cat].color : 'rgba(245,240,224,0.3)',
+                    color: categoryFilter === cat ? CATEGORIES[cat].color : 'rgba(245,240,224,0.25)',
                     borderColor: categoryFilter === cat ? CATEGORIES[cat].color : 'transparent',
-                    backgroundColor: categoryFilter === cat ? `${CATEGORIES[cat].color}15` : 'rgba(255,255,255,0.02)',
+                    backgroundColor: categoryFilter === cat ? `${CATEGORIES[cat].color}12` : 'rgba(255,255,255,0.01)',
                   }}
                 >
                   {CATEGORY_ICONS[cat]}
@@ -137,9 +137,9 @@ export default function HistoryPage() {
                 onClick={() => setSourceFilter('')}
                 className={`category-pill ${sourceFilter === '' ? 'selected' : ''}`}
                 style={{
-                  color: sourceFilter === '' ? 'rgba(245,240,224,0.6)' : 'rgba(245,240,224,0.3)',
-                  borderColor: sourceFilter === '' ? 'rgba(245,240,224,0.3)' : 'transparent',
-                  backgroundColor: sourceFilter === '' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.02)',
+                  color: sourceFilter === '' ? 'rgba(245,240,224,0.5)' : 'rgba(245,240,224,0.25)',
+                  borderColor: sourceFilter === '' ? 'rgba(245,240,224,0.2)' : 'transparent',
+                  backgroundColor: sourceFilter === '' ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.01)',
                 }}
               >
                 Semua
@@ -150,9 +150,9 @@ export default function HistoryPage() {
                   onClick={() => setSourceFilter(sourceFilter === src ? '' : src)}
                   className="category-pill"
                   style={{
-                    color: sourceFilter === src ? SOURCES[src].color : 'rgba(245,240,224,0.3)',
+                    color: sourceFilter === src ? SOURCES[src].color : 'rgba(245,240,224,0.25)',
                     borderColor: sourceFilter === src ? SOURCES[src].color : 'transparent',
-                    backgroundColor: sourceFilter === src ? SOURCES[src].bg : 'rgba(255,255,255,0.02)',
+                    backgroundColor: sourceFilter === src ? SOURCES[src].bg : 'rgba(255,255,255,0.01)',
                   }}
                 >
                   {SOURCES[src].label}
@@ -191,9 +191,9 @@ export default function HistoryPage() {
               setMonthFilter('')
             }}
             className="mt-4 text-xs transition-colors"
-            style={{ color: 'rgba(196,167,231,0.4)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#ffd700')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(196,167,231,0.4)')}
+            style={{ color: 'rgba(156,142,196,0.35)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#c9a96e')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(156,142,196,0.35)')}
           >
             Hapus filter
           </button>
@@ -203,8 +203,8 @@ export default function HistoryPage() {
       {/* Expense List */}
       <div className="glass-card p-5 fade-in stagger-2">
         <div className="flex items-center gap-2 mb-5">
-          <History size={15} style={{ color: 'rgba(196,167,231,0.5)' }} />
-          <h2 className="text-sm font-medium" style={{ color: 'rgba(196,167,231,0.5)' }}>Transaksi</h2>
+          <History size={15} style={{ color: 'rgba(156,142,196,0.4)' }} />
+          <h2 className="text-sm font-medium" style={{ color: 'rgba(156,142,196,0.4)' }}>Transaksi</h2>
         </div>
         <ExpenseList
           expenses={filteredExpenses}

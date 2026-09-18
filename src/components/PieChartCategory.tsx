@@ -8,17 +8,17 @@ interface PieChartCategoryProps {
 }
 
 const COLORS: Record<Category, string> = {
-  makanan: '#f0c040',
-  transport: '#00d4ff',
-  belanja: '#c4a7e7',
-  hiburan: '#ff9ecd',
-  lain: '#8b9dc3',
+  makanan: '#c9a96e',
+  transport: '#9c8ec4',
+  belanja: '#d4a574',
+  hiburan: '#b4a88c',
+  lain: '#8d9eb8',
 }
 
 export default function PieChartCategory({ data }: PieChartCategoryProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(196,167,231,0.3)' }}>
+      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(156,142,196,0.25)' }}>
         Belum ada data untuk ditampilkan.
       </div>
     )
@@ -27,7 +27,7 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
   const chartData = data.map((item) => ({
     name: CATEGORIES[item.category]?.label ?? item.category,
     value: item.total,
-    color: COLORS[item.category] ?? '#8b9dc3',
+    color: COLORS[item.category] ?? '#8d9eb8',
   }))
 
   return (
@@ -46,7 +46,7 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
             <Cell
               key={`cell-${index}`}
               fill={entry.color}
-              style={{ filter: `drop-shadow(0 0 6px ${entry.color}40)` }}
+              style={{ filter: `drop-shadow(0 0 5px ${entry.color}30)` }}
             />
           ))}
         </Pie>
@@ -59,8 +59,8 @@ export default function PieChartCategory({ data }: PieChartCategoryProps) {
             }).format(value)
           }
           contentStyle={{
-            backgroundColor: 'rgba(13,13,43,0.95)',
-            border: '1px solid rgba(255,215,0,0.15)',
+            backgroundColor: 'rgba(18,17,24,0.95)',
+            border: '1px solid rgba(201,169,110,0.12)',
             borderRadius: '12px',
             color: '#f5f0e0',
             fontSize: '13px',

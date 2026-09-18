@@ -29,7 +29,7 @@ export default function Navbar({ userEmail }: NavbarProps) {
   const isActive = (href: string) => pathname === href
 
   return (
-    <nav className="sticky top-0 z-50 relative" style={{ background: 'rgba(13,13,43,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,215,0,0.08)' }}>
+    <nav className="sticky top-0 z-50 relative" style={{ background: 'rgba(15,14,19,0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(201,169,110,0.06)' }}>
       <div className="relative max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -37,11 +37,11 @@ export default function Navbar({ userEmail }: NavbarProps) {
             <span
               className="text-xl font-bold tracking-tight"
               style={{
-                background: 'linear-gradient(135deg, #ffd700 0%, #f0c040 30%, #ffd700 50%, #ffec80 70%, #ffd700 100%)',
+                background: 'linear-gradient(135deg, #c9a96e 0%, #d4a574 40%, #e8d4b8 60%, #c9a96e 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 8px rgba(255,215,0,0.3))',
+                fontFamily: 'Playfair Display, serif',
               }}
             >
               ExpenseLog
@@ -56,8 +56,8 @@ export default function Navbar({ userEmail }: NavbarProps) {
                 href={link.href}
                 className={`nav-link text-sm font-medium transition-colors ${
                   isActive(link.href)
-                    ? 'text-amber-300'
-                    : 'text-indigo-400/70 hover:text-amber-200'
+                    ? 'text-[#c9a96e]'
+                    : 'text-[rgba(156,142,196,0.5)] hover:text-[rgba(201,169,110,0.7)]'
                 }`}
               >
                 {link.label}
@@ -68,12 +68,12 @@ export default function Navbar({ userEmail }: NavbarProps) {
           {/* Desktop User */}
           <div className="hidden md:flex items-center gap-4">
             {userEmail && (
-              <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(196,167,231,0.6)' }}>
+              <div className="flex items-center gap-2 text-sm" style={{ color: 'rgba(156,142,196,0.5)' }}>
                 <div
                   className="w-7 h-7 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg, #ffd700, #f0c040)' }}
+                  style={{ background: 'linear-gradient(135deg, #c9a96e, #d4a574)' }}
                 >
-                  <User size={13} className="text-gray-900" />
+                  <User size={13} className="text-[#1a1510]" />
                 </div>
                 <span className="max-w-40 truncate">{userEmail}</span>
               </div>
@@ -81,9 +81,9 @@ export default function Navbar({ userEmail }: NavbarProps) {
             <button
               onClick={handleLogout}
               className="flex items-center gap-1.5 text-sm transition-colors"
-              style={{ color: 'rgba(196,167,231,0.5)' }}
+              style={{ color: 'rgba(156,142,196,0.4)' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#f87171')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(196,167,231,0.5)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(156,142,196,0.4)')}
             >
               <LogOut size={14} />
               Keluar
@@ -93,7 +93,7 @@ export default function Navbar({ userEmail }: NavbarProps) {
           {/* Mobile hamburger */}
           <button
             className="md:hidden p-1 transition-colors"
-            style={{ color: 'rgba(255,215,0,0.6)' }}
+            style={{ color: 'rgba(201,169,110,0.5)' }}
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -102,7 +102,7 @@ export default function Navbar({ userEmail }: NavbarProps) {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden py-4 space-y-1" style={{ borderTop: '1px solid rgba(255,215,0,0.06)' }}>
+          <div className="md:hidden py-4 space-y-1" style={{ borderTop: '1px solid rgba(201,169,110,0.04)' }}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -110,16 +110,16 @@ export default function Navbar({ userEmail }: NavbarProps) {
                 onClick={() => setMobileOpen(false)}
                 className={`nav-link block px-3 py-2.5 text-sm font-medium rounded-lg transition-colors ${
                   isActive(link.href)
-                    ? 'text-amber-300'
-                    : 'text-indigo-400/70 hover:text-amber-200'
+                    ? 'text-[#c9a96e]'
+                    : 'text-[rgba(156,142,196,0.5)] hover:text-[rgba(201,169,110,0.7)]'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <div style={{ borderTop: '1px solid rgba(255,215,0,0.06)' }} className="pt-3 mt-2 px-2">
+            <div style={{ borderTop: '1px solid rgba(201,169,110,0.04)' }} className="pt-3 mt-2 px-2">
               {userEmail && (
-                <p className="text-xs mb-2 truncate px-1" style={{ color: 'rgba(196,167,231,0.4)' }}>{userEmail}</p>
+                <p className="text-xs mb-2 truncate px-1" style={{ color: 'rgba(156,142,196,0.3)' }}>{userEmail}</p>
               )}
               <button
                 onClick={handleLogout}

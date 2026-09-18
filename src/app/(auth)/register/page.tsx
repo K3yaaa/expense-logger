@@ -57,37 +57,36 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Glass card */}
+      {/* Glass card — warm dark tones */}
       <div
         className="p-8 w-full max-w-md relative z-10 fade-in"
         style={{
-          background: 'rgba(13,13,43,0.85)',
+          background: 'rgba(18,17,24,0.88)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(0,212,255,0.12)',
+          border: '1px solid rgba(156,142,196,0.1)',
           borderRadius: '24px',
-          boxShadow: '0 0 60px rgba(0,212,255,0.06), 0 8px 40px rgba(0,0,0,0.5)',
+          boxShadow: '0 0 60px rgba(156,142,196,0.04), 0 8px 40px rgba(0,0,0,0.5)',
         }}
       >
-        {/* Swirling brushstroke decoration at top */}
-        <div style={{ position: 'absolute', top: '-1px', left: '10%', right: '10%', height: '3px', background: 'linear-gradient(90deg, transparent, rgba(0,212,255,0.3), rgba(255,215,0,0.2), rgba(196,167,231,0.3), transparent)', borderRadius: '50%' }} />
+        {/* Elegant top accent line */}
+        <div style={{ position: 'absolute', top: '-1px', left: '10%', right: '10%', height: '2px', background: 'linear-gradient(90deg, transparent, rgba(156,142,196,0.2), rgba(201,169,110,0.15), rgba(156,142,196,0.2), transparent)', borderRadius: '50%' }} />
 
         {/* Header */}
         <div className="text-center mb-10">
           <h1
             className="text-4xl font-bold mb-2 tracking-tight"
             style={{
-              background: 'linear-gradient(135deg, #00d4ff 0%, #ffd700 40%, #c4a7e7 70%, #00d4ff 100%)',
+              background: 'linear-gradient(135deg, #c9a96e 0%, #d4a574 40%, #e8d4b8 60%, #c9a96e 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 12px rgba(0,212,255,0.3))',
               fontFamily: 'Playfair Display, serif',
             }}
           >
             ExpenseLog
           </h1>
-          <p className="text-sm" style={{ color: 'rgba(196,167,231,0.5)' }}>Buat akun baru</p>
+          <p className="text-sm" style={{ color: 'rgba(156,142,196,0.45)' }}>Buat akun baru</p>
         </div>
 
         {/* Divider */}
@@ -95,14 +94,14 @@ export default function RegisterPage() {
 
         {/* Error */}
         {error && (
-          <div className="rounded-xl px-4 py-3 mb-6 text-sm" style={{ background: 'rgba(127,29,29,0.4)', border: '1px solid rgba(220,38,38,0.3)', color: '#fca5a5' }}>
+          <div className="rounded-xl px-4 py-3 mb-6 text-sm" style={{ background: 'rgba(127,29,29,0.35)', border: '1px solid rgba(220,38,38,0.25)', color: '#fca5a5' }}>
             {error}
           </div>
         )}
 
         {/* Success */}
         {success && (
-          <div className="rounded-xl px-4 py-3 mb-6 text-sm" style={{ background: 'rgba(20,83,45,0.4)', border: '1px solid rgba(34,197,94,0.3)', color: '#86efac' }}>
+          <div className="rounded-xl px-4 py-3 mb-6 text-sm" style={{ background: 'rgba(20,83,45,0.3)', border: '1px solid rgba(34,197,94,0.25)', color: '#86efac' }}>
             {success}
           </div>
         )}
@@ -135,10 +134,10 @@ export default function RegisterPage() {
               <button
                 type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-                style={{ color: 'rgba(196,167,231,0.4)' }}
+                style={{ color: 'rgba(156,142,196,0.35)' }}
                 onClick={() => setShowPassword(!showPassword)}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#ffd700')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(196,167,231,0.4)')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#c9a96e')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(156,142,196,0.35)')}
               >
                 {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
@@ -160,11 +159,12 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-8 relative overflow-hidden rounded-xl py-3.5 font-semibold text-gray-900 transition-all duration-200 btn-press disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full mt-8 relative overflow-hidden rounded-xl py-3.5 font-semibold transition-all duration-200 btn-press disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
-              background: 'linear-gradient(135deg, #ffd700 0%, #f0c040 50%, #ffd700 100%)',
+              background: 'linear-gradient(135deg, #c9a96e 0%, #d4a574 50%, #c9a96e 100%)',
               backgroundSize: '200% 200%',
-              boxShadow: '0 0 30px rgba(255,215,0,0.3), 0 4px 20px rgba(0,0,0,0.3)',
+              color: '#1a1510',
+              boxShadow: '0 0 25px rgba(201,169,110,0.2), 0 4px 20px rgba(0,0,0,0.3)',
             }}
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
@@ -180,7 +180,7 @@ export default function RegisterPage() {
 
         {/* Login link */}
         <div className="divider mt-8 mb-6" />
-        <p className="text-center text-sm" style={{ color: 'rgba(196,167,231,0.5)' }}>
+        <p className="text-center text-sm" style={{ color: 'rgba(156,142,196,0.45)' }}>
           Sudah punya akun?{' '}
           <Link href="/login" className="link font-medium">
             Masuk di sini

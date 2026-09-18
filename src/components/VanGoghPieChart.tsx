@@ -13,7 +13,6 @@ interface VanGoghPieChartProps {
   title?: string
 }
 
-// Generate SVG arc path with slight organic variation
 function describeArc(cx: number, cy: number, innerR: number, outerR: number, startAngle: number, endAngle: number): string {
   const toRad = (a: number) => (a * Math.PI) / 180
   const x1 = cx + outerR * Math.cos(toRad(startAngle - 90))
@@ -31,7 +30,7 @@ function describeArc(cx: number, cy: number, innerR: number, outerR: number, sta
 export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(196,167,231,0.3)' }}>
+      <div className="flex items-center justify-center h-64 text-sm" style={{ color: 'rgba(156,142,196,0.25)' }}>
         Belum ada data untuk ditampilkan.
       </div>
     )
@@ -66,17 +65,17 @@ export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
     return result
   })
 
-  // Star positions around the chart
-  const stars = [
-    { x: 22, y: 30, size: 3, delay: '0s' },
-    { x: 238, y: 25, size: 2.5, delay: '0.5s' },
-    { x: 15, y: 200, size: 2, delay: '1s' },
-    { x: 248, y: 210, size: 3, delay: '1.5s' },
-    { x: 130, y: 8, size: 2, delay: '2s' },
-    { x: 55, y: 252, size: 1.8, delay: '0.8s' },
-    { x: 205, y: 255, size: 2.2, delay: '1.2s' },
-    { x: 8, y: 120, size: 1.5, delay: '2.5s' },
-    { x: 255, y: 130, size: 2, delay: '0.3s' },
+  // Soft decorative dots — subtle watercolor feel
+  const dots = [
+    { x: 22, y: 30, size: 2.5, delay: '0s' },
+    { x: 238, y: 25, size: 2, delay: '0.5s' },
+    { x: 15, y: 200, size: 1.8, delay: '1s' },
+    { x: 248, y: 210, size: 2.2, delay: '1.5s' },
+    { x: 130, y: 8, size: 1.5, delay: '2s' },
+    { x: 55, y: 252, size: 1.5, delay: '0.8s' },
+    { x: 205, y: 255, size: 1.8, delay: '1.2s' },
+    { x: 8, y: 120, size: 1.2, delay: '2.5s' },
+    { x: 255, y: 130, size: 1.5, delay: '0.3s' },
   ]
 
   return (
@@ -87,48 +86,39 @@ export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
         style={{ maxWidth: '300px', margin: '0 auto', display: 'block' }}
       >
         <defs>
-          {/* Glow filter for stars */}
-          <filter id="star-glow">
+          {/* Soft glow filter */}
+          <filter id="slice-glow">
             <feGaussianBlur stdDeviation="1.5" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-          {/* Soft glow for segments */}
-          <filter id="segment-glow">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          {/* Background gradient for chart area */}
-          <radialGradient id="chart-bg" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#1a1a3e" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#0d0d2b" stopOpacity="0.6" />
+          {/* Background gradient */}
+          <radialGradient id="chart-bg-elegant" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#1a1a28" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#0f0e13" stopOpacity="0.4" />
           </radialGradient>
         </defs>
 
         {/* Background circle */}
-        <circle cx={cx} cy={cy} r={outerR + 15} fill="url(#chart-bg)" />
+        <circle cx={cx} cy={cy} r={outerR + 15} fill="url(#chart-bg-elegant)" />
 
-        {/* Animated stars */}
-        <g filter="url(#star-glow)">
-          {stars.map((star, i) => (
-            <g key={i}>
-              <circle
-                cx={star.x}
-                cy={star.y}
-                r={star.size}
-                fill="#ffd700"
-                opacity="0.9"
-                style={{
-                  animation: `star-pulse ${2 + i * 0.3}s ease-in-out infinite`,
-                  animationDelay: star.delay,
-                }}
-              />
-            </g>
+        {/* Subtle decorative dots */}
+        <g filter="url(#slice-glow)">
+          {dots.map((dot, i) => (
+            <circle
+              key={i}
+              cx={dot.x}
+              cy={dot.y}
+              r={dot.size}
+              fill="#c9a96e"
+              opacity="0.4"
+              style={{
+                animation: `dot-breathe 3s ease-in-out infinite`,
+                animationDelay: dot.delay,
+              }}
+            />
           ))}
         </g>
 
@@ -140,31 +130,31 @@ export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
               <path
                 d={slice.path}
                 fill={slice.color}
-                opacity="0.85"
-                filter="url(#segment-glow)"
+                opacity="0.8"
+                filter="url(#slice-glow)"
                 style={{
-                  stroke: 'rgba(13,13,43,0.8)',
+                  stroke: 'rgba(15,14,19,0.8)',
                   strokeWidth: '1.5',
                   transition: 'opacity 0.2s ease',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.85')}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.95')}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
               />
             </g>
           )
         })}
 
         {/* Center total */}
-        <circle cx={cx} cy={cy} r={innerR - 2} fill="#0d0d2b" opacity="0.9" />
+        <circle cx={cx} cy={cy} r={innerR - 2} fill="#0f0e13" opacity="0.85" />
         <text
           x={cx}
           y={cy - 8}
           textAnchor="middle"
-          fill="#ffd700"
+          fill="#9c8ec4"
           fontSize="11"
           fontFamily="Inter, sans-serif"
           fontWeight="600"
-          opacity="0.7"
+          opacity="0.6"
         >
           TOTAL
         </text>
@@ -201,23 +191,23 @@ export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
           )
         })}
 
-        {/* Swirling decoration lines around edge */}
-        <circle cx={cx} cy={cy} r={outerR + 4} fill="none" stroke="rgba(255,215,0,0.1)" strokeWidth="1" strokeDasharray="3 5" />
+        {/* Subtle dashed ring */}
+        <circle cx={cx} cy={cy} r={outerR + 4} fill="none" stroke="rgba(201,169,110,0.08)" strokeWidth="1" strokeDasharray="3 5" />
       </svg>
 
       {/* Legend */}
       <div className="flex flex-wrap justify-center gap-4 mt-4">
         {slices.map((slice, i) => (
-          <div key={i} className="flex items-center gap-2" style={{ color: 'rgba(245,240,224,0.7)' }}>
+          <div key={i} className="flex items-center gap-2" style={{ color: 'rgba(245,240,224,0.65)' }}>
             <span
               className="inline-block w-2.5 h-2.5 rounded-full"
               style={{
                 background: slice.color,
-                boxShadow: `0 0 6px ${slice.color}`,
+                boxShadow: `0 0 5px ${slice.color}`,
               }}
             />
             <span className="text-xs font-medium">{slice.label}</span>
-            <span className="text-xs" style={{ color: 'rgba(196,167,231,0.4)' }}>
+            <span className="text-xs" style={{ color: 'rgba(156,142,196,0.35)' }}>
               {slice.pct}%
             </span>
           </div>
@@ -226,9 +216,9 @@ export default function VanGoghPieChart({ data, title }: VanGoghPieChartProps) {
 
       {/* CSS keyframes */}
       <style>{`
-        @keyframes star-pulse {
-          0%, 100% { opacity: 0.3; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.3); }
+        @keyframes dot-breathe {
+          0%, 100% { opacity: 0.25; transform: scale(0.9); }
+          50% { opacity: 0.6; transform: scale(1.1); }
         }
       `}</style>
     </div>

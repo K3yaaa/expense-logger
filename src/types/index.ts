@@ -18,17 +18,17 @@ export interface CategoryInfo {
 }
 
 export const CATEGORIES: Record<Category, CategoryInfo> = {
-  makanan: { label: 'Makanan', color: '#f0c040' },
-  transport: { label: 'Transport', color: '#00d4ff' },
-  belanja: { label: 'Belanja', color: '#c4a7e7' },
-  hiburan: { label: 'Hiburan', color: '#ff9ecd' },
-  lain: { label: 'Lainnya', color: '#8b9dc3' },
+  makanan: { label: 'Makanan', color: '#c9a96e' },
+  transport: { label: 'Transport', color: '#9c8ec4' },
+  belanja: { label: 'Belanja', color: '#d4a574' },
+  hiburan: { label: 'Hiburan', color: '#b4a88c' },
+  lain: { label: 'Lainnya', color: '#8d9eb8' },
 }
 
 export const SOURCES = {
-  bekal: { label: 'Bekal', color: '#00d4ff', bg: 'rgba(0,212,255,0.15)' },
-  beasiswa: { label: 'Beasiswa', color: '#ffd700', bg: 'rgba(255,215,0,0.15)' },
-  lain: { label: 'Lain', color: '#c4a7e7', bg: 'rgba(196,167,231,0.15)' },
+  bekal: { label: 'Bekal', color: '#9c8ec4', bg: 'rgba(156,142,196,0.15)' },
+  beasiswa: { label: 'Beasiswa', color: '#c9a96e', bg: 'rgba(201,169,110,0.15)' },
+  lain: { label: 'Lain', color: '#8d6e63', bg: 'rgba(141,110,99,0.15)' },
 } as const
 
 export const MONTHS = [
