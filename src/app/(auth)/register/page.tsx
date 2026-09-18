@@ -39,17 +39,23 @@ export default function RegisterPage() {
       password,
     })
 
-    console.log('Signup response:', { error, data })
-
     if (error) {
       setError(error.message)
       setLoading(false)
       return
     }
 
-    setSuccess('Akun berhasil dibuat! Mengarahkan ke halaman login...')
+    // If mailer_autoconfirm is true, user is created + session returned
+    // Redirect directly to dashboard
+    if (data.user) {
+      setLoading(false)
+      router.push('/dashboard')
+      return
+    }
+
+    // If no user returned (confirmation email needed), show message
+    setSuccess('Cek email untuk konfirmasi, lalu masuk.')
     setLoading(false)
-    setTimeout(() => router.push('/login'), 2000)
   }
 
   return (
